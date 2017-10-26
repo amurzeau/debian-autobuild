@@ -43,6 +43,7 @@ def send_file(parameters, auth, baseDir, file):
 		print("Push to {}".format(finalUrl))
 		r = requests.put(finalUrl, headers=headers, auth=auth, data=packageFile)
 		print("Response: {}".format(r.text))
+		r.raise_for_status()
 
 def publish_files(parameters, auth):
 	url = "https://api.bintray.com/content/{user}/{repo}/{package}/{version}/publish"
