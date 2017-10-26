@@ -20,7 +20,7 @@ script:
 
 deploy:
   provider: script
-  script: pwd && ls -l && echo ../travis-build/deploy.sh streamlink-debian "$TARGET_DIST" "$CHANGES_FILE"
+  script: ../travis-build/deploy.sh streamlink-debian "$TARGET_DIST" "$CHANGES_FILE"
   skip_cleanup: true
   on:
     tags: true
