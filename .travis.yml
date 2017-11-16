@@ -2,7 +2,7 @@ sudo: required
 language: generic
 
 env:
-  - REPO=https://github.com/amurzeau/streamlink-debian VERSION=debian/0.9.0-1
+  - REPO=https://github.com/amurzeau/streamlink-debian VERSION=debian/0.9.0-1_bpo9+1
 
 before_install:
   - echo $LANG
