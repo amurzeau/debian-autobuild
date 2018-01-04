@@ -10,7 +10,7 @@ before_install:
   - echo $USER
   - git clone "$REPO" checkout-dir && cd $_ && git checkout $VERSION
   - export TARGET_DIST=$(dpkg-parsechangelog --show-field distribution)
-  - export DIST=$(echo "$TARGET_DIST" | cut -d '-' -f 1)
+  - export DIST=$([ "$TARGET_DIST" != "UNRELEASED" ] && (echo "$TARGET_DIST" | cut -d '-' -f 1) || echo "unstable")
 
 script:
   - echo "Building for distribution $DIST ($TARGET_DIST)"
