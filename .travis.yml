@@ -1,6 +1,9 @@
 sudo: required
 language: generic
 
+services:
+  - docker
+
 env:
   - REPO=https://github.com/amurzeau/streamlink-debian VERSION=master
 
@@ -11,10 +14,12 @@ before_install:
   - git clone "$REPO" checkout-dir && cd $_ && git checkout $VERSION
   - export TARGET_DIST=$(dpkg-parsechangelog --show-field distribution)
   - export DIST=$([ "$TARGET_DIST" != "UNRELEASED" ] && (echo "$TARGET_DIST" | cut -d '-' -f 1) || echo "unstable")
+  - docker pull amubtdx/debian-sbuild-$DIST
 
 script:
   - echo "Building for distribution $DIST ($TARGET_DIST)"
-  - ../travis-build/build.sh $DIST $TARGET_DIST
+    #  - ../travis-build/build.sh $DIST $TARGET_DIST
+  - sh ../docker-sbuild-unstable/run.sh $DIST $PWD
   - export CHANGES_FILE="../build-area/$(find ../build-area -type f -name '*.changes' -printf '%T@ %P\n' | sort -nr | awk '{print $2}' | head -1)"
   - echo "$CHANGES_FILE" && cat "$CHANGES_FILE"
 
