@@ -34,7 +34,7 @@ else:
 
 def send_file(parameters, auth, baseDir, file):
 	url = "https://api.bintray.com/content/{user}/{repo}/{package}/{version}/pool/{component}/{package[0]}/{package}/{file};deb_distribution={distributions};deb_component={component};deb_architecture={architectures};publish=0;override=1"
-	finalUrl = url.format(**parameters, file=file)
+	finalUrl = url.format(file=file, **parameters)
 	finalFile = baseDir + '/' + file
 
 	print("Sending package {} using parameters:\n{}".format(finalFile, json.dumps(parameters, indent=4)))
