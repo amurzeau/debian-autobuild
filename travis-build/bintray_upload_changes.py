@@ -55,7 +55,7 @@ def publish_files(parameters, auth):
 	print("Publishing files")
 
 	headers = {'X-GPG-PASSPHRASE': passphrase}
-        r = requests.post(finalUrl, headers=headers, auth=auth, data="{\"publish_wait_for_secs\": -1}")
+	r = requests.post(finalUrl, headers=headers, auth=auth, data="{\"publish_wait_for_secs\": -1}")
 	print("Response: {}".format(r.text))
 
 
