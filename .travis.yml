@@ -5,26 +5,14 @@ services:
   - docker
 
 env:
-  - REPO=https://github.com/amurzeau/streamlink-debian VERSION=debian/0.10.0+dfsg-1
+  - DIST=unstable
 
-before_install:
-  - echo $LANG
-  - echo $LC_ALL
-  - echo $USER
-  - git clone "$REPO" checkout-dir && cd $_ && git checkout $VERSION
-  - export TARGET_DIST=$(dpkg-parsechangelog --show-field distribution)
-  - export DIST=$([ "$TARGET_DIST" != "UNRELEASED" ] && (echo "$TARGET_DIST" | cut -d '-' -f 1) || echo "unstable")
-  - docker pull amubtdx/debian-sbuild-$DIST
 
 script:
-  - echo "Building for distribution $DIST ($TARGET_DIST)"
-  - sh ../travis-build/run.sh $DIST $PWD
-  - export CHANGES_FILE="../build-area/$(find ../build-area -type f -name '*.changes' -printf '%T@ %P\n' | sort -nr | awk '{print $2}' | head -1)"
-  - echo "$CHANGES_FILE" && cat "$CHANGES_FILE"
+  - echo "Building docker image for distribution $DIST"
+  - sh ../docker-sbuild-unstable/build.sh $DIST
 
-deploy:
-  provider: script
-  script: ../travis-build/deploy.sh streamlink-debian "$TARGET_DIST" "$CHANGES_FILE"
-  skip_cleanup: true
-  on:
-    tags: true
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    #  - docker push amubtdx/debian-sbuild-$DIST
+
