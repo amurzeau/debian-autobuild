@@ -10,9 +10,10 @@ env:
 
 script:
   - echo "Building docker image for distribution $DIST"
-  - sh ../docker-sbuild-unstable/build.sh $DIST
+  - cd docker-debian-sbuild
+  - sh ./build.sh $DIST
 
 after_success:
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    #  - docker push amubtdx/debian-sbuild-$DIST
+  - docker push amubtdx/debian-sbuild-$DIST
 
