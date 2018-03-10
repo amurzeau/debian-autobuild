@@ -43,7 +43,10 @@ def send_file(parameters, auth, baseDir, file):
 		print("Push to {}".format(finalUrl))
 		r = requests.put(finalUrl, headers=headers, auth=auth, data=packageFile)
 		print("Response: {}".format(r.text))
-		r.raise_for_status()
+
+		# Ignore 409 Conflict error, assume the already existing file is correct (it will be checked later in check_files)
+		if r.status_code != 409:
+			r.raise_for_status()
 
 def publish_files(parameters, auth):
 	url = "https://api.bintray.com/content/{user}/{repo}/{package}/{version}/publish"

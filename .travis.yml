@@ -5,7 +5,7 @@ services:
   - docker
 
 env:
-  - REPO=https://github.com/amurzeau/streamlink-debian VERSION=debian/0.10.0+dfsg-1_bpo9+1
+  - REPO=https://github.com/amurzeau/streamlink-debian VERSION=debian/0.11.0+dfsg-1_bpo9+1
 
 before_install:
   - echo $LANG
