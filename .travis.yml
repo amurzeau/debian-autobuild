@@ -6,7 +6,7 @@ services:
 
 env:
   - DIST=unstable
-  - DIST=stretch
+  - DIST=buster
 
 script:
   - echo "Building docker image for distribution $DIST"
