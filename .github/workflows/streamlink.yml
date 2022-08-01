@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: streamlink
+
+# Controls when the workflow will run
+# Triggers the workflow on push or pull request events
+on:
+  push:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/debian-build.yml'
+      - '.github/workflows/streamlink.yml'
+  pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/debian-build.yml'
+      - '.github/workflows/streamlink.yml'
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Linux build
+  linux:
+    uses: ./.github/workflows/debian-build.yml
+    with:
+      repo: https://github.com/amurzeau/streamlink-debian
+      version: debian/4.2.0-1
+      arch: i386
+    secrets: inherit
