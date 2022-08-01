@@ -23,5 +23,3 @@ RUN apt-get update \
 	&& apt-get purge -y debootstrap \
 	&& apt-get -y autoremove \
 	&& apt-get clean
-
-COPY build-package.sh /build-package.sh

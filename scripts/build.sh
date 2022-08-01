@@ -30,7 +30,7 @@ docker run --rm --privileged \
     -v $PWD:/build \
     -w /build \
     docker-debian-sbuild-$DIST-$ARCH \
-    /build-package.sh "$ARCH" "$DIST" "$CHECKOUT_DIR"
+    /build/scripts/build-package.sh "$ARCH" "$DIST" "$CHECKOUT_DIR"
 
 export CHANGES_FILE="$(find . -maxdepth 1 -type f -name '*.changes' -printf '%T@ %P\n' | sort -nr | awk '{print $2}' | head -1)"
 echo "$CHANGES_FILE"
