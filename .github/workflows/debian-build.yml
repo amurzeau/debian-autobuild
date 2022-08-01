@@ -42,8 +42,8 @@ jobs:
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
         with:
-          key: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/Dockerfile') }}-${{ hashFiles('docker-image/**') }}
-          restore-keys: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/Dockerfile') }}-
+          key: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/**') }}
+          restore-keys: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/**') }}
 
       - name: Build
         run: |
