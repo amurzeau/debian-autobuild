@@ -20,7 +20,7 @@ cd "$CHECKOUT_DIR"
 git init
 git remote add origin "$REPO"
 git fetch --depth 1 origin "$VERSION:$VERSION"
-git fetch --depth 1 origin pristine-tar:pristine-tar || true
+git fetch --depth 1 origin pristine-tar:pristine-tar && git fetch --depth 1 origin upstream:upstream || true
 git checkout "$VERSION"
 cd -
 
@@ -43,6 +43,7 @@ fi
 docker system df -v
 df -h
 free -h
+ps -ef
 
 echo "::set-output docker-image-tag=docker-debian-sbuild-$DIST-$ARCH"
 
@@ -53,6 +54,9 @@ docker run --rm --privileged \
     -w /build \
     docker-debian-sbuild-$DIST-$ARCH \
     /build/scripts/build-package.sh "$ARCH" "$DIST" "$CHECKOUT_DIR"
+
+df -h
+free -h
 
 export CHANGES_FILE="$(find . -maxdepth 1 -type f -name '*.changes' -printf '%T@ %P\n' | sort -nr | awk '{print $2}' | head -1)"
 echo "$CHANGES_FILE"

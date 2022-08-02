@@ -29,4 +29,4 @@ apt-get remove --auto-remove -y "$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/
 
 df -h
 
-sbuild -v --arch-all --no-source --no-clean-source --host $ARCH --build $ARCH -d $DIST "$CHECKOUT_DIR"
+sbuild -v --arch-all --no-source --no-clean-source --no-apt-clean --host $ARCH --build $ARCH -d $DIST "$CHECKOUT_DIR"
