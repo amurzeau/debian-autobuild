@@ -11,8 +11,6 @@ RUN apt-get update \
 		sbuild \
 		schroot \
 		gnupg \
-		lintian \
-		autopkgtest \
 		dpkg-dev \
 		git-buildpackage \
 		pristine-tar \
