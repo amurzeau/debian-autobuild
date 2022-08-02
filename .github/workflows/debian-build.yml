@@ -1,0 +1,79 @@
+# This is a basic workflow to help you get started with Actions
+
+name: debian-package-build
+
+# This is a called workflow
+# see https://docs.github.com/en/actions/using-workflows/reusing-workflows
+on: 
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      arch:
+        required: true
+        type: string
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Linux build
+  debian-package-build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Pull debian
+        run: |
+          docker pull debian:unstable
+
+      # In this step, this action saves a list of existing images,
+      # the cache is created without them in the post run.
+      # It also restores the cache if it exists.
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+        with:
+          key: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/**') }}
+          restore-keys: debian-sbuild-docker-cache-${{ inputs.repo }}-${{ inputs.version }}-${{ inputs.arch }}-${{ hashFiles('docker-image/**') }}
+
+      - name: Build
+        run: |
+          ./scripts/build.sh "${{ inputs.repo }}" "${{ inputs.version }}" "${{ inputs.arch }}"
+
+      # The source package is too big and rarely useful
+      #- name: Upload a source package
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    # Artifact name
+      #    name: "debian-source-package" # optional, default is artifact
+      #    # A file, directory or wildcard pattern that describes what to upload
+      #    path: |
+      #      *.dsc
+      #      *.orig.tar.*
+      #      *.debian.*
+
+      - name: Upload a binary deb packages
+        uses: actions/upload-artifact@v3
+        with:
+          # Artifact name
+          name: "debian-binary-packages" # optional, default is artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: '*.deb'
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+            files: '*.deb'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

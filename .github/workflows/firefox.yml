@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: firefox
+
+# Controls when the workflow will run
+# Triggers the workflow on push or pull request events
+on:
+  push:
+    branches:
+      - 'firefox'
+    tags:
+      - 'firefox/*'
+  pull_request:
+    branches:
+      - 'firefox'
+    tags:
+      - 'firefox/*'
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Linux build
+  linux:
+    uses: ./.github/workflows/debian-build.yml
+    with:
+      repo: https://github.com/amurzeau/firefox-debian
+      version: refs/heads/esr91/nosse-bullseye
+      arch: i386
+    secrets: inherit
