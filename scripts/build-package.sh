@@ -10,10 +10,14 @@ apt-get -y update
 apt-get -y dist-upgrade
 apt-get -y autoremove
 
+
+# Fix 'fatal: unsafe repository ('/build/checkout-dir' is owned by someone else)'
+git config --global --add safe.directory /build/checkout-dir
+
 # Download orig.tar.* archives to ../
 cd "$CHECKOUT_DIR"
 if ! gbp export-orig --verbose; then
-    ls -la
+    git status || true
     origtargz --unpack=no --tar-only
 fi
 cd -

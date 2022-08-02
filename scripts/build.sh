@@ -14,8 +14,6 @@ echo $LANG
 echo $LC_ALL
 echo $USER
 
-umask 0000
-
 # Shallow clone the wanted branch and pristine-tar if it exists
 mkdir "$CHECKOUT_DIR"
 cd "$CHECKOUT_DIR"
@@ -38,8 +36,8 @@ if [ "$(du -s "$CHECKOUT_DIR/.git" | cut -d $'\t' -f 1)" -gt 500000 ]; then
     docker image prune -f || true
     
     # Should free around 30GB (see https://github.com/actions/virtual-environments/issues/2606)
-    [ -d "/usr/share/dotnet" ] && rm -rf "/usr/share/dotnet" || true
-    [ -d "/usr/local/lib/android" ] && rm -rf "/usr/local/lib/android" || true
+    [ -d "/usr/share/dotnet" ] && sudo rm -rf "/usr/share/dotnet" || true
+    [ -d "/usr/local/lib/android" ] && sudo rm -rf "/usr/local/lib/android" || true
 fi
 
 docker system df -v
