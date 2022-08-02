@@ -4,7 +4,20 @@ name: firefox
 
 # Controls when the workflow will run
 # Triggers the workflow on push or pull request events
-on: [ push, pull_request, workflow_dispatch ]
+on:
+  push:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/debian-build.yml'
+      - '.github/workflows/firefox.yml'
+  pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/debian-build.yml'
+      - '.github/workflows/firefox.yml'
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -13,6 +26,6 @@ jobs:
     uses: ./.github/workflows/debian-build.yml
     with:
       repo: https://github.com/amurzeau/firefox-debian
-      version: esr91/nosse-bullseye
+      version: refs/tags/esr91/nosse-bullseye
       arch: i386
     secrets: inherit

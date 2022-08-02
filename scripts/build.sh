@@ -13,7 +13,16 @@ echo "Building $REPO version $VERSION on arch $ARCH"
 echo $LANG
 echo $LC_ALL
 echo $USER
-git clone -b "$VERSION" --depth 1 "$REPO" "$CHECKOUT_DIR"
+
+# Shallow clone the wanted branch and pristine-tar if it exists
+mkdir "$CHECKOUT_DIR"
+cd "$CHECKOUT_DIR"
+git init
+git remote add origin "$REPO"
+git fetch --depth 1 origin "$VERSION:$VERSION"
+git fetch --depth 1 origin pristine-tar:pristine-tar || true
+git checkout "$VERSION"
+cd -
 
 export TARGET_DIST=$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/changelog" --show-field distribution)
 export DIST=$([ "$TARGET_DIST" != "UNRELEASED" ] && [ "$TARGET_DIST" != "experimental" ] && (echo "$TARGET_DIST" | cut -d '-' -f 1) || echo "unstable")
