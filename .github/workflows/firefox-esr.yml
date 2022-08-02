@@ -1,20 +1,20 @@
 # This is a basic workflow to help you get started with Actions
 
-name: firefox
+name: firefox-esr
 
 # Controls when the workflow will run
 # Triggers the workflow on push or pull request events
 on:
   push:
     branches:
-      - 'firefox'
+      - 'firefox-esr'
     tags:
-      - 'firefox/*'
+      - 'firefox-esr/*'
   pull_request:
     branches:
-      - 'firefox'
+      - 'firefox-esr'
     tags:
-      - 'firefox/*'
+      - 'firefox-esr/*'
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
