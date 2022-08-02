@@ -14,6 +14,8 @@ echo $LANG
 echo $LC_ALL
 echo $USER
 
+umask 0000
+
 # Shallow clone the wanted branch and pristine-tar if it exists
 mkdir "$CHECKOUT_DIR"
 cd "$CHECKOUT_DIR"
