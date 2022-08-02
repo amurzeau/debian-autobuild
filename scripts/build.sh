@@ -34,7 +34,8 @@ docker build --build-arg TARGET_DIST=$DIST --build-arg TARGET_ARCH=$ARCH --tag d
 # Maximize disk space
 # Do this only if the git dir is large (> 500MB)
 if [ "$(du -s "$CHECKOUT_DIR/.git" | cut -d $'\t' -f 1)" -gt 500000 ]; then
-    docker image prune -f $(docker images -q --format "{{.ID}}\t{{.Repository}}" | grep -v docker-debian-sbuild | cut -d $'\t' -f1)
+    docker image rm -f $(docker images -q --format "{{.ID}}\t{{.Repository}}" | grep -v docker-debian-sbuild | cut -d $'\t' -f1)
+    docker image prune -f
     
     # Should free around 30GB (see https://github.com/actions/virtual-environments/issues/2606)
     [ -d "/usr/share/dotnet" ] && rm -rf "/usr/share/dotnet" || true
