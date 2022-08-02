@@ -6,9 +6,9 @@ ARCH="$1"
 DIST="$2"
 CHECKOUT_DIR="$3"
 
-apt-get -y update
-apt-get -y dist-upgrade
-apt-get -y autoremove
+eatmydata apt-get -y update
+eatmydata apt-get -y dist-upgrade
+eatmydata apt-get -y autoremove
 
 
 # Fix 'fatal: unsafe repository ('/build/checkout-dir' is owned by someone else)'
@@ -26,9 +26,9 @@ cd -
 [ -f /etc/apt/apt.conf.d/docker-clean ] && mv /etc/apt/apt.conf.d/docker-clean /etc/apt/apt.conf.d/docker-clean.disabled
 
 # Install dependencies for debian/rules clean only (remove them after to keep disk usage low)
-mk-build-deps --install --remove --tool "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y" "$CHECKOUT_DIR/debian/control"
-fakeroot make -C $CHECKOUT_DIR -f debian/rules clean
-apt-get remove --auto-remove -y "$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/changelog" --show-field Source)-build-deps"
+eatmydata mk-build-deps --install --remove --tool "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y" "$CHECKOUT_DIR/debian/control"
+eatmydata fakeroot make -C $CHECKOUT_DIR -f debian/rules clean
+eatmydata apt-get remove --auto-remove -y "$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/changelog" --show-field Source)-build-deps"
 
 df -h
 

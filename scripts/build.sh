@@ -52,7 +52,7 @@ docker run --rm --privileged \
     -v $PWD:/build \
     -w /build \
     docker-debian-sbuild-$DIST-$ARCH \
-    eatmydata /build/scripts/build-package.sh "$ARCH" "$DIST" "$CHECKOUT_DIR"
+    /build/scripts/build-package.sh "$ARCH" "$DIST" "$CHECKOUT_DIR"
 
 df -h
 free -h
