@@ -6,17 +6,15 @@ name: streamlink
 # Triggers the workflow on push or pull request events
 on:
   push:
-    paths:
-      - '**'
-      - '!.github/workflows/**'
-      - '.github/workflows/debian-build.yml'
-      - '.github/workflows/streamlink.yml'
+    branches:
+      - 'streamlink'
+    tags:
+      - 'streamlink/*'
   pull_request:
-    paths:
-      - '**'
-      - '!.github/workflows/**'
-      - '.github/workflows/debian-build.yml'
-      - '.github/workflows/streamlink.yml'
+    branches:
+      - 'streamlink'
+    tags:
+      - 'streamlink/*'
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
