@@ -43,7 +43,6 @@ fi
 docker system df -v
 df -h
 free -h
-ps -ef
 
 echo "::set-output docker-image-tag=docker-debian-sbuild-$DIST-$ARCH"
 
