@@ -24,6 +24,6 @@ jobs:
     uses: ./.github/workflows/debian-build.yml
     with:
       repo: https://github.com/amurzeau/firefox-debian
-      version: refs/heads/esr91/nosse-bullseye
+      version: refs/heads/esr102/no-sse
       arch: i386
     secrets: inherit
