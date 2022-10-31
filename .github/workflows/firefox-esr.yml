@@ -24,6 +24,6 @@ jobs:
     uses: ./.github/workflows/debian-build.yml
     with:
       repo: https://github.com/amurzeau/firefox-debian
-      version: refs/heads/esr102/no-sse
+      version: 03da7e4afb7eb515838b30df0cfeaf26dd2c3620
       arch: i386
     secrets: inherit
