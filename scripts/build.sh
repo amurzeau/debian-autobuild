@@ -27,7 +27,7 @@ cd -
 export TARGET_DIST=$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/changelog" --show-field distribution)
 export DIST=$([ "$TARGET_DIST" != "UNRELEASED" ] && [ "$TARGET_DIST" != "experimental" ] && (echo "$TARGET_DIST" | cut -d '-' -f 1) || echo "unstable")
 
-docker build --build-arg TARGET_DIST=$DIST --build-arg TARGET_ARCH=$ARCH --tag docker-debian-sbuild-$DIST-$ARCH ./docker-image
+docker build --pull --build-arg TARGET_DIST=$DIST --build-arg TARGET_ARCH=$ARCH --tag docker-debian-sbuild-$DIST-$ARCH ./docker-image
 
 # Maximize disk space
 # Do this only if the git dir is large (> 500MB)
