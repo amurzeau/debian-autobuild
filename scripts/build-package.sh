@@ -25,11 +25,6 @@ cd -
 # Reenable apt archive cache to download dependencies only once for both the source clean and sbuild build
 [ -f /etc/apt/apt.conf.d/docker-clean ] && mv /etc/apt/apt.conf.d/docker-clean /etc/apt/apt.conf.d/docker-clean.disabled
 
-# Install dependencies for debian/rules clean only (remove them after to keep disk usage low)
-eatmydata mk-build-deps --install --remove --tool "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y" "$CHECKOUT_DIR/debian/control"
-eatmydata fakeroot make -C $CHECKOUT_DIR -f debian/rules clean
-eatmydata apt-get remove --auto-remove -y "$(dpkg-parsechangelog -l "$CHECKOUT_DIR/debian/changelog" --show-field Source)-build-deps"
-
 df -h
 
 sbuild -v --arch-all --no-source --no-clean-source --host $ARCH --build $ARCH -d $DIST "$CHECKOUT_DIR" --no-run-lintian --no-run-piuparts --no-run-autopkgtest
